@@ -1,7 +1,8 @@
-const mongoose = require('mongoose')
+const mongoose = require ('mongoose')
 
 const MONGODB_URI = 'mongodb://0.0.0.0:27017/portafolio'
 
+console.log(process.env.DBUSER)
 
 connection = async ()=>{
     try{
@@ -10,12 +11,9 @@ connection = async ()=>{
             useNewUrlParser:true
         })
         console.log("Database is connected")
-    }catch(error){
+    }catch (error) {
         console.log(error)
     }
 }
 
 module.exports = connection
-
-
-

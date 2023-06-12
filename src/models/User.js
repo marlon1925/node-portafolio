@@ -1,40 +1,41 @@
 const {Schema, model} = require('mongoose')
 const bcrypt = require('bcryptjs')
-const password = require('password')
+const passport = require('passport')
+
 
 const userSchema = new Schema(
     {
-        name:{
-            type:String,
-            require:true
-        },
-        email:{
-            type:String,
-            require:true
-        },
-        password:{
-            type:String,
-            require:true
-        }
+    name:{
+        type:String,
+        require:true
+    },
+    email:{
+        type:String,
+        require:true
+    },
+    password :{
+        type:String,
+        require:true
+    }
     },
     {
         timestamps:true
     }
 )
 
-//Metodo para cifrar el password del usuario
+// Metodo para cifrar el password del usuario
 
-userSchema.methods.encryPassword = async(password) =>{
+userSchema.method.encrypPassword = async(password)=>{
     const salt = await bcrypt.genSalt(10)
     const passwordEncryp = await bcrypt.hash(password,salt)
     return passwordEncryp
 }
 
-//Método para verificar si el password ingresado es el mismo de la BDD
-
-userSchema.methods.matchPassword = async function(password){
-    const response = await bcrypt.compare(password, this.password)
+// Metodos para verificar si el password ingresado es el mismo de la BDD
+userSchema.method.matchPassword = async function(password){
+    const response = await bcrypt.compare(password,this.password)
     return response
 }
 
-module.exports = model('user',userSchema)
+module.exports = model('user', userSchema)
+

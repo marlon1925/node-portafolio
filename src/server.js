@@ -1,21 +1,17 @@
-// const express = require('express')
 
-// const app = express()
-
-// module.exports = app
-
+//const exp = require('constants');
 const express = require('express')
+const path = require('path');
+const {engine} = require('express-handlebars')
+const methodOverride = require('method-override');
 
-const path = require('path')
-const { engine }  = require('express-handlebars')
 
-
-//Inicializamos 
+// inicializaciones
 const app = express()
 
 //configuraciones
 app.set('port', process.env.port || 3000)
-app.set('views', path.join(__dirname,'views'))
+app.set('views',path.join(__dirname, 'views'))
 
 app.engine('.hbs',engine({
     defaultLayout:'main',
@@ -25,22 +21,21 @@ app.engine('.hbs',engine({
 }))
 app.set('view engine','.hbs')
 
-// Rutas 
-app.get('/',(req,res)=>{
-    res.render('index')
-})
-app.use(require('./routers/index.routes'))
 
-
-//Middleware
-
-app.use(express.urlencoded({extend:false}))
+//Middlewares
+app.use(express.urlencoded({extenden:false}))
+app.use(methodOverride('_method'))
 
 //Variables globales
 
+// Rutas
+app.use(require('./routers/index.routes'))
+app.use(require('./routers/portafolio.routes'))
 
-//Archivos stataticos
 
+// Archivos estaticos
 app.use(express.static(path.join(__dirname,'public')))
 
 module.exports = app
+
+

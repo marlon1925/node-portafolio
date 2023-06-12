@@ -1,10 +1,10 @@
 {
-  "name": "portafolio",
+  "name": "node-portafolio",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "node src/index.js",
+    "start":"node src/index.js",
     "dev" : "nodemon src/index.js"
   },
   "keywords": [],
@@ -27,3 +27,4 @@
     "npm-check-updates": "^16.10.12"
   }
 }
+
