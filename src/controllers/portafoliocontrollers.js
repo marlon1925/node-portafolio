@@ -1,5 +1,5 @@
 // Hacer la importacion del modelo
-const Portfolio = require('../models/portafolio')
+const Portfolio = require('../models/Portafolio')
 const fs = require('fs-extra')
 // IMPORTAR EL METODO uploadImage Y EL METODO deleteImage
 const { uploadImage,deleteImage } = require('../config/clodinary')
