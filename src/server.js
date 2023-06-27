@@ -4,12 +4,16 @@ const express = require('express')
 const path = require('path');
 const {engine} = require('express-handlebars')
 const methodOverride = require('method-override');
+const fileUpload = require('express-fileupload')
+
+
 const passport = require('passport');
 const session = require('express-session');
 
 
 // inicializaciones
 const app = express()
+// INVOCAR EL ARCHIVO PASSPORT
 require('./config/passport')
 
 //configuraciones
@@ -24,11 +28,18 @@ app.engine('.hbs',engine({
 }))
 app.set('view engine','.hbs')
 
+// Temporal
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : './uploads'
+}));
+
 
 //Middlewares
+// aqui cambio palabra extenden por extended
 app.use(express.urlencoded({extenden:false}))
 app.use(methodOverride('_method'))
-//CREAMOS LA LET PARA EL SERVIDOR - SECRET
+// CREAMOS LA KEY PARA EL SERVIDOR - secret
 app.use(session({ 
     secret: 'secret',
     resave:true,
@@ -39,12 +50,18 @@ app.use(passport.initialize())
 // INICIALIZAR SESSION
 app.use(passport.session())
 
-//Variables globales
+
+// Variables globales
+app.use((req,res,next)=>{
+    res.locals.user = req.user?.name || null
+    next()
+})
 
 // Rutas
-app.use(require('./routers/index.routes'))
 app.use(require('./routers/portafolio.routes'))
+app.use(require('./routers/index.routes'))
 app.use(require('./routers/user.routes'))
+
 
 
 // Archivos estaticos
